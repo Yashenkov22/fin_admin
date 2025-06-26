@@ -1,0 +1,70 @@
+services:
+
+  django_admin:
+    build: .
+    pull_policy: build
+    restart: always
+    cpus: '1.0'
+    ports:
+     - '8000:8000'
+    networks:
+      - django_network
+    environment:
+      - POSTGRES_HOST=psql_db_fin
+    env_file:
+      - ./.env
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "20m"
+    volumes:
+      - fin_static:/app/staticfiles
+      - fin_media:/app/media
+    command: sh -c "python manage.py migrate &&
+                    python manage.py createsuperuser --no-input &&
+                    python manage.py collectstatic --no-input &&
+                    gunicorn -w 1 project.wsgi:application --bind 0.0.0.0:8000"
+                    # python manage.py runserver 0.0.0.0:8000 --noreload"
+                    # python manage.py createsuperuser --no-input &&
+
+    # command: sh -c "python manage.py migrate &&
+    #                 python manage.py collectstatic --no-input &&
+    #                 python manage.py createsuperuser --no-input &&
+    #                 gunicorn -w 1 project.wsgi:application --bind 0.0.0.0:8004"
+
+    # command: sh -c "python manage.py makemigrations &&
+    #                 python manage.py migrate &&
+    #                 gunicorn -w 2 -k uvicorn.workers.UvicornWorker project.asgi:app --bind 0.0.0.0:8004"
+                    # python manage.py collectstatic --no-input &&
+                    # python manage.py createsuperuser --no-input &&
+                    # uvicorn project.asgi:app --host 0.0.0.0"
+  nginx:
+    build: ./nginx
+    restart: always
+    container_name: nginx
+    cpus: '0.5'
+    networks:
+      - django_network
+    volumes:
+      - fin_static:/static
+      - fin_media:/media
+      # - ./nginx/certs:/etc/nginx/certs
+    ports:
+      - '81:80'
+      # - '80:80'
+      # - '443:443'
+    depends_on:
+      - django_admin
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "20m"
+
+volumes:
+  fin_static:
+  fin_media:
+
+networks:
+  django_network:
+    name: fin_bot_fin_bot_network
+    external: true
