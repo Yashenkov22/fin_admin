@@ -18,41 +18,41 @@ from rangefilter.filters import (
 )
 
 
-class MyAdminSite(admin.AdminSite):
+# class MyAdminSite(admin.AdminSite):
 
-    def dashboard_page(self, request):
-        return custom_admin_view(request, self=self)
+#     def dashboard_page(self, request):
+#         return custom_admin_view(request, self=self)
 
-    def get_urls(self):
-        urls = super().get_urls()
-        # print(urls)
-        custom_urls = [
-            path('dashboard/', admin.site.admin_view(self.dashboard_page), name='dashboard_page'),
-        ]
-        return custom_urls + urls
+#     def get_urls(self):
+#         urls = super().get_urls()
+#         # print(urls)
+#         custom_urls = [
+#             path('dashboard/', admin.site.admin_view(self.dashboard_page), name='dashboard_page'),
+#         ]
+#         return custom_urls + urls
 
-    def get_app_list(self, request, app_label=None):
-        app_list = super().get_app_list(request, app_label)
-        if app_label is None or app_label == 'custom':
-            app_list.append(
-                {
-                    "name": "Общее",
-                    "app_label": "custom",
-                    "models": [
-                        {
-                            "name": "Статистика бота",
-                            "object_name": "dashboard",
-                            "admin_url": "/admin/dashboard",
-                            "view_only": True,
-                        }
-                    ],
-                }
-            )
-        return app_list
+#     def get_app_list(self, request, app_label=None):
+#         app_list = super().get_app_list(request, app_label)
+#         if app_label is None or app_label == 'custom':
+#             app_list.append(
+#                 {
+#                     "name": "Общее",
+#                     "app_label": "custom",
+#                     "models": [
+#                         {
+#                             "name": "Статистика бота",
+#                             "object_name": "dashboard",
+#                             "admin_url": "/admin/dashboard",
+#                             "view_only": True,
+#                         }
+#                     ],
+#                 }
+#             )
+#         return app_list
     
     
 
-admin.site = MyAdminSite()
+# admin.site = MyAdminSite()
 
 # admin.site.unregister(User)
 # admin.site.unregister(Group)
