@@ -204,7 +204,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # SITE_DOMAIN = PUBLIC_URL
-SITE_DOMAIN = '65.108.242.208:8001'
+SITE_DOMAIN = '65.108.242.208'
 
 PROTOCOL = 'http://'
 
