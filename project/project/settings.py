@@ -34,8 +34,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = DJANGO_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 
 ALLOWED_HOSTS = ['127.0.0.1',
@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     #,
     'rangefilter',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -189,9 +190,9 @@ INTERNAL_IPS = [
 # STATIC_URL = 'static/'
 
 # DEV
-# STATIC_URL = "/django/static/"
+STATIC_URL = "/django/static/"
 # PROD
-STATIC_URL = "/static/"
+# STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = [
@@ -199,8 +200,11 @@ STATICFILES_DIRS = [
     # Если есть другие папки со статическими файлами, добавьте их здесь
 ]
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # SITE_DOMAIN = PUBLIC_URL
-SITE_DOMAIN = '65.108.242.208:8000'
+SITE_DOMAIN = '127.0.0.1:8000'
 
 PROTOCOL = 'http://'
 

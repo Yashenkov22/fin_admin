@@ -4,10 +4,16 @@ from django.db.models import Count, Sum, Value, OuterRef, Subquery, F
 from django.db.models.functions import Coalesce
 from django.urls import path
 from django.template.response import TemplateResponse
+from django.utils.safestring import mark_safe
+
+from django.conf import settings
+
+from django_summernote.admin import SummernoteModelAdmin
+from django_summernote.models import Attachment
 
 from datetime import datetime, timedelta
 
-from .models import Users, UTM, Orders
+from .models import Users, UTM, Orders, MassSendMessage, MassSendImage, MassSendVideo, MassSendFile
 from .views import custom_admin_view
 
 from rangefilter.filters import (
@@ -16,6 +22,63 @@ from rangefilter.filters import (
     NumericRangeFilterBuilder,
     DateRangeQuickSelectListFilterBuilder,
 )
+
+
+def generate_image_icon(icon_url: str):
+    return settings.PROTOCOL + settings.SITE_DOMAIN\
+                                + icon_url.url
+
+
+class MassSendImageStacked(admin.StackedInline):
+    model = MassSendImage
+    extra = 0
+    classes = [
+        'collapse',
+        ]
+    readonly_fields = ('image_icon', 'file_id')
+    
+    def image_icon(self, obj):
+        print(obj.__dict__)
+        icon_url = generate_image_icon(obj.image)
+        print('image url', icon_url)
+        # icon_url = f'http://localhost:8000/django{obj.image.url}'
+        ##
+        return mark_safe(f"<img src='{icon_url}' width=40")
+    
+    image_icon.short_description = 'Изображение'
+    
+
+class MassSendVideoStacked(admin.StackedInline):
+    model = MassSendVideo
+    extra = 0
+    classes = [
+        'collapse',
+        ]
+    readonly_fields = ('file_id', )
+
+
+class MassSendFileStacked(admin.StackedInline):
+    model = MassSendFile
+    extra = 0
+    classes = [
+        'collapse',
+        ]
+    readonly_fields = ('file_id', )
+
+
+
+
+@admin.register(MassSendMessage)
+class MassSendMessageAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content', )
+    inlines = [
+        MassSendImageStacked,
+        MassSendVideoStacked,
+        MassSendFileStacked,
+    ]
+
+    class Media:
+        js = ('main/js/test_1.js', )
 
 
 # class MyAdminSite(admin.AdminSite):
