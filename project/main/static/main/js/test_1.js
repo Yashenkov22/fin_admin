@@ -16,7 +16,7 @@ window.addEventListener('load', function () {
         let mass_send_button = document.createElement('button');
         mass_send_button.textContent = 'mass_send';
         mass_send_button.onclick = function() {
-            let data = fetch(`http://65.108.242.208:8001/send_mass_message?name_send=${name}`)
+            let data = fetch(`http://65.108.242.208/send_mass_message?name_send=${name}`)
             .then(resp => {
                 resp.text().then(console.log)
             })
