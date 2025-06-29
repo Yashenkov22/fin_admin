@@ -1,7 +1,8 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.models import User, Group
 from django.db.models import Count, Sum, Value, OuterRef, Subquery, F
 from django.db.models.functions import Coalesce
+from django.db import transaction
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
@@ -13,7 +14,7 @@ from django_summernote.models import Attachment
 
 from datetime import datetime, timedelta
 
-from .models import Users, UTM, Orders, MassSendMessage, MassSendImage, MassSendVideo, MassSendFile
+from .models import Users, UTM, Orders, MassSendMessage, MassSendFile
 from .views import custom_admin_view
 
 from rangefilter.filters import (
@@ -29,8 +30,8 @@ def generate_image_icon(icon_url: str):
                                 + icon_url.url
 
 
-class MassSendImageStacked(admin.StackedInline):
-    model = MassSendImage
+class MassSendFileStacked(admin.StackedInline):
+    model = MassSendFile
     extra = 0
     classes = [
         'collapse',
@@ -38,42 +39,25 @@ class MassSendImageStacked(admin.StackedInline):
     readonly_fields = ('image_icon', 'file_id')
     
     def image_icon(self, obj):
-        print(obj.__dict__)
-        icon_url = generate_image_icon(obj.image)
-        print('image url', icon_url)
-        # icon_url = f'http://localhost:8000/django{obj.image.url}'
-        ##
-        return mark_safe(f"<img src='{icon_url}' width=40")
+        path_url_postfix = obj.file.url.split('.')[-1]
+
+        if path_url_postfix in settings.IMAGE_POSTFIX_SET:
+        
+            icon_url = generate_image_icon(obj.file)
+            # print('image url', icon_url)
+            # icon_url = f'http://localhost:8000/django{obj.image.url}'
+            ##
+            return mark_safe(f"<img src='{icon_url}' width=40")
+        else:
+            return 'не опрелелено'
     
     image_icon.short_description = 'Изображение'
-    
-
-class MassSendVideoStacked(admin.StackedInline):
-    model = MassSendVideo
-    extra = 0
-    classes = [
-        'collapse',
-        ]
-    readonly_fields = ('file_id', )
-
-
-class MassSendFileStacked(admin.StackedInline):
-    model = MassSendFile
-    extra = 0
-    classes = [
-        'collapse',
-        ]
-    readonly_fields = ('file_id', )
-
-
 
 
 @admin.register(MassSendMessage)
 class MassSendMessageAdmin(SummernoteModelAdmin):
     summernote_fields = ('content', )
     inlines = [
-        MassSendImageStacked,
-        MassSendVideoStacked,
         MassSendFileStacked,
     ]
 

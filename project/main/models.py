@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.forms import ValidationError
 
 
 class AlembicVersion(models.Model):
@@ -236,50 +237,50 @@ class MassSendMessage(models.Model):
 
 
 # Модель изображений связанных с рассылкой 
-class MassSendImage(models.Model):
-    image = models.ImageField('Изображение',
-                              upload_to='mass_send/images/')
-    message = models.ForeignKey(MassSendMessage,
-                                 on_delete=models.CASCADE,
-                                 verbose_name='Cообщение',
-                                 related_name='images')
-    file_id = models.CharField('ID файла',
-                               max_length=255,
-                               null=True,
-                               blank=True,
-                               default=None)
+# class MassSendFile(models.Model):
+#     image = models.ImageField('Изображение',
+#                               upload_to='mass_send/files/')
+#     message = models.OneToOneField(MassSendMessage,
+#                                  on_delete=models.CASCADE,
+#                                  verbose_name='Cообщение',
+#                                  related_name='image')
+#     file_id = models.CharField('ID файла',
+#                                max_length=255,
+#                                null=True,
+#                                blank=True,
+#                                default=None)
     
-    def __str__(self):
-        return f'Изображение {self.id}'
+#     def __str__(self):
+#         return f'Изображение {self.id}'
     
-    class Meta:
-        db_table = 'mass_send_image'
-        managed = False
-        verbose_name = 'Изображение для расслыки'
-        verbose_name_plural = 'Изображения для расслыки'
+#     class Meta:
+#         db_table = 'mass_send_image'
+#         managed = False
+#         verbose_name = 'Изображение для расслыки'
+#         verbose_name_plural = 'Изображения для расслыки'
 
 # Модель видео связанных с рассылкой 
-class MassSendVideo(models.Model):
-    video = models.FileField('Видео',
-                             upload_to='mass_send/videos/')
-    message = models.ForeignKey(MassSendMessage,
-                                 on_delete=models.CASCADE,
-                                 verbose_name='Cообщение',
-                                 related_name='videos')
-    file_id = models.CharField('ID файла',
-                               max_length=255,
-                               null=True,
-                               blank=True,
-                               default=None)
+# class MassSendVideo(models.Model):
+#     video = models.FileField('Видео',
+#                              upload_to='mass_send/videos/')
+#     message = models.OneToOneField(MassSendMessage,
+#                                  on_delete=models.CASCADE,
+#                                  verbose_name='Cообщение',
+#                                  related_name='video')
+#     file_id = models.CharField('ID файла',
+#                                max_length=255,
+#                                null=True,
+#                                blank=True,
+#                                default=None)
 
-    def __str__(self):
-        return f'Видео {self.id}'
+#     def __str__(self):
+#         return f'Видео {self.id}'
 
-    class Meta:
-        db_table = 'mass_send_video'
-        managed = False
-        verbose_name = 'Видео для расслыки'
-        verbose_name_plural = 'Видео для расслыки'
+#     class Meta:
+#         db_table = 'mass_send_video'
+#         managed = False
+#         verbose_name = 'Видео для расслыки'
+#         verbose_name_plural = 'Видео для расслыки'
 
 
 # Модель файлов связанных с рассылкой 

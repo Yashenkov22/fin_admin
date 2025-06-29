@@ -214,3 +214,6 @@ CSRF_TRUSTED_ORIGINS = [f'{PROTOCOL}{SITE_DOMAIN}']
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+IMAGE_POSTFIX_SET = {'jpeg', 'png', 'jpg', 'webp', 'svg'}
