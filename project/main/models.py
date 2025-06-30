@@ -287,10 +287,10 @@ class MassSendMessage(models.Model):
 class MassSendFile(models.Model):
     file = models.FileField('Файл',
                             upload_to='mass_send/files/')
-    message = models.ForeignKey(MassSendMessage,
+    message = models.OneToOneField(MassSendMessage,
                                  on_delete=models.CASCADE,
                                  verbose_name='Cообщение',
-                                 related_name='files')
+                                 related_name='file')
     file_id = models.CharField('ID файла',
                                max_length=255,
                                null=True,
