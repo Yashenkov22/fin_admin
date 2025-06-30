@@ -43,7 +43,7 @@ window.addEventListener('load', function () {
             let channel_send_button = document.createElement('button');
             channel_send_button.textContent = 'Рассылка в Fin Bot канал';
             channel_send_button.onclick = function() {
-                let data = fetch(`http://65.108.242.208/chanel__mass_message?name_send=${name}`)
+                let data = fetch(`http://65.108.242.208/channel_mass_message?name_send=${name}`)
                 .then(resp => {
                     resp.text().then(console.log)
                 })
