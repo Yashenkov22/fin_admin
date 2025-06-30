@@ -13,18 +13,50 @@ window.addEventListener('load', function () {
         if (window.location.pathname.includes('/change/')) {
     
             let main_div = document.getElementById('content-main');
+
+            let buttons_wrapper = document.createElement('div');
+            buttons_wrapper.style.display = 'flex';
+            buttons_wrapper.style.gap = '10px';  // расстояние между кнопками
+            buttons_wrapper.style.margin = '10px 0';  // отступы сверху и снизу
             // let new_li = document.createElement('li');
-            let mass_send_button = document.createElement('button');
-            mass_send_button.textContent = 'mass_send';
-            mass_send_button.onclick = function() {
-                let data = fetch(`http://65.108.242.208/send_mass_message?name_send=${name}`)
+            let test_send_button = document.createElement('button');
+            test_send_button.textContent = 'Тестовая рассылка( в твой чат)';
+            test_send_button.onclick = function() {
+                let data = fetch(`http://65.108.242.208/test_send_mass_message?name_send=${name}`)
                 .then(resp => {
                     resp.text().then(console.log)
                 })
-                alert("Рассылка запущена")
+                alert("Тестовая рассылка запущена")
             };
-            main_div.appendChild(mass_send_button);
 
+            let group_send_button = document.createElement('button');
+            group_send_button.textContent = 'Тестовая рассылка( в твой чат)';
+            group_send_button.onclick = function() {
+                let data = fetch(`http://65.108.242.208/group_send_mass_message?name_send=${name}`)
+                .then(resp => {
+                    resp.text().then(console.log)
+                })
+                alert("Рассылка в группу запущена")
+            };
+
+
+            let channel_send_button = document.createElement('button');
+            channel_send_button.textContent = 'Тестовая рассылка( в твой чат)';
+            channel_send_button.onclick = function() {
+                let data = fetch(`http://65.108.242.208/chanel_send_mass_message?name_send=${name}`)
+                .then(resp => {
+                    resp.text().then(console.log)
+                })
+                alert("Рассылка в канал запущена")
+            };
+            
+
+
+            buttons_wrapper.appendChild(test_send_button);
+            buttons_wrapper.appendChild(group_send_button);
+            buttons_wrapper.appendChild(channel_send_button);
+            
+            main_div.appendChild(buttons_wrapper)
         }
         // main_ul.append(new_li);
     }
