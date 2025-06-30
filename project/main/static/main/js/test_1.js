@@ -22,7 +22,7 @@ window.addEventListener('load', function () {
             let test_send_button = document.createElement('button');
             test_send_button.textContent = 'Тестовая рассылка (в твой чат)';
             test_send_button.onclick = function() {
-                let data = fetch(`http://65.108.242.208/test_send_mass_message?name_send=${name}`)
+                let data = fetch(`http://65.108.242.208/test_mass_message?name_send=${name}`)
                 .then(resp => {
                     resp.text().then(console.log)
                 })
@@ -32,7 +32,7 @@ window.addEventListener('load', function () {
             let group_send_button = document.createElement('button');
             group_send_button.textContent = 'Рассылка в Fin Bot группу';
             group_send_button.onclick = function() {
-                let data = fetch(`http://65.108.242.208/group_send_mass_message?name_send=${name}`)
+                let data = fetch(`http://65.108.242.208/group_mass_message?name_send=${name}`)
                 .then(resp => {
                     resp.text().then(console.log)
                 })
@@ -43,7 +43,7 @@ window.addEventListener('load', function () {
             let channel_send_button = document.createElement('button');
             channel_send_button.textContent = 'Рассылка в Fin Bot канал';
             channel_send_button.onclick = function() {
-                let data = fetch(`http://65.108.242.208/chanel_send_mass_message?name_send=${name}`)
+                let data = fetch(`http://65.108.242.208/chanel__mass_message?name_send=${name}`)
                 .then(resp => {
                     resp.text().then(console.log)
                 })
