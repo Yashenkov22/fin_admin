@@ -236,7 +236,7 @@ class MassSendMessage(models.Model):
                                       null=True,
                                       default=None,
                                       help_text='Если оставить поле пустым пост отправится сразу после нажатия соответствующих кнопок снизу')
-    send_to = models.CharField('Куда отправить отложенный пост', max_length=255, choices=send_to_list, default=None, null=True)
+    send_to = models.CharField('Куда отправить отложенный пост', max_length=255, choices=send_to_list, default=None, null=True, blank=True)
 
     class Meta:
         db_table = 'mass_send_message'
