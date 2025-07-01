@@ -223,6 +223,7 @@ class UTM(models.Model):
 
 class MassSendMessage(models.Model):
     send_to_list = [
+        (None, None),
         ('Fin бот группа', 'Fin бот группа'),
         ('Fin бот канал', 'Fin бот канал'),
         ('Админу', 'Админу'),
