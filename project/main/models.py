@@ -222,12 +222,20 @@ class UTM(models.Model):
     
 
 class MassSendMessage(models.Model):
+    send_to_list = [
+        ('Fin бот группа', 'Fin бот группа'),
+        ('Fin бот канал', 'Fin бот канал'),
+        ('Админу', 'Админу'),
+    ]
     name = models.CharField('Название',
                             max_length=255)
     content = models.TextField('Контент')
-
-    def __str__(self):
-        return self.name
+    delay_time = models.DateTimeField('Отложить выполенение до',
+                                      blank=True,
+                                      null=True,
+                                      default=None,
+                                      help_text='Если оставить поле пустым пост отправится сразу после нажатия соответствующих кнопок снизу')
+    send_to = models.CharField('Куда отправить отложенный пост', max_length=255, choices=send_to_list)
 
     class Meta:
         db_table = 'mass_send_message'
@@ -235,7 +243,15 @@ class MassSendMessage(models.Model):
         verbose_name = 'Массовая рассылка'
         verbose_name_plural = 'Массовые рассылки'
 
+    def __str__(self):
+        return self.name
 
+
+    def clean(self):
+        super().clean()
+
+        if any(el for el in (self.delay_time, self.send_to)) and not (all(el for el in (self.delay_time, self.send_to))):
+            raise ValidationError('Нужно выбрать И дату И куда отправить')
 # Модель изображений связанных с рассылкой 
 # class MassSendFile(models.Model):
 #     image = models.ImageField('Изображение',
