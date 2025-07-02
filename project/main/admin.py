@@ -61,8 +61,39 @@ class MassSendMessageAdmin(SummernoteModelAdmin):
         MassSendFileStacked,
     ]
 
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["name",
+                           "content",]
+                        #    "partner_link",
+                        #    "is_active",
+                        #    "is_vip",
+                        #    'high_aml',
+                        #    "get_total_direction_count",
+                        #    "reserve_amount",
+                        #    "age",
+                        #    'time_create',
+                        #    "country",
+                        #    ("period_for_create", "period_for_update", "period_for_parse_black_list"),
+                        #    'icon_url',
+                        #    'get_icon',
+                        #    'link_count'],
+            },
+        ),
+        (
+            "Функционал отложенного поста (по времени)",
+            {
+                "classes": ["collapse"],
+                "fields": ["delay_time", "send_to"],
+            },
+        ),
+    ]
+
     class Media:
         js = ('main/js/test_1.js', )
+
 
 
 # class MyAdminSite(admin.AdminSite):
