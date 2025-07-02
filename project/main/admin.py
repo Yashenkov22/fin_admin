@@ -56,7 +56,8 @@ class MassSendFileStacked(admin.StackedInline):
 
 @admin.register(MassSendMessage)
 class MassSendMessageAdmin(SummernoteModelAdmin):
-    summernote_fields = ('content', )
+    list_display = ('name', 'has_delayed_task')
+    summernote_fields = ('content', '')
     inlines = [
         MassSendFileStacked,
     ]
@@ -66,7 +67,8 @@ class MassSendMessageAdmin(SummernoteModelAdmin):
             None,
             {
                 "fields": ["name",
-                           "content",]
+                           "content",
+                           "has_delayed_task"]
                         #    "partner_link",
                         #    "is_active",
                         #    "is_vip",
