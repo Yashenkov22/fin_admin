@@ -17,4 +17,4 @@ def check_delay_time_by_mass_message(sender, instance, created, **kwargs):
         if instance.delay_time and instance.send_to:
             # print('here')
             # async_to_sync(run_background_task_with_delay)(instance.name)
-            transaction.on_commit(lambda: async_to_sync(run_background_task_with_delay)(instance.name))
+            transaction.on_commit(lambda: async_to_sync(run_background_task_with_delay)(instance.pk))
