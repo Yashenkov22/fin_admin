@@ -229,6 +229,12 @@ class MassSendMessage(models.Model):
         ('Fin бот канал', 'Fin бот канал'),
         ('Админу', 'Админу'),
     ]
+    has_delayed_task_list = [
+        (None, None),
+        ('Запланировано', 'Запланировано'),
+        ('Завершилось успешно', 'Завершилось успешно'),
+        ('Завершилось с ошибкой', 'Завершилось с ошибкой'),
+    ]
     name = models.CharField('Название',
                             max_length=255)
     content = models.TextField('Контент')
@@ -238,7 +244,11 @@ class MassSendMessage(models.Model):
                                       default=None,
                                       help_text='Если оставить поле пустым пост отправится сразу после нажатия соответствующих кнопок снизу')
     send_to = models.CharField('Куда отправить отложенный пост', max_length=255, choices=send_to_list, default=None, null=True, blank=True)
-    has_delayed_task = models.BooleanField('Запланировано отложенная отправка?', default=False)
+    # has_delayed_task = models.BooleanField('Запланирована отложенная отправка?', default=False)
+    has_delayed_task = models.CharField('Запланирована отложенная отправка?',
+                                        max_length=255,
+                                        choices=has_delayed_task_list,
+                                        default=None)
 
     class Meta:
         db_table = 'mass_send_message'
