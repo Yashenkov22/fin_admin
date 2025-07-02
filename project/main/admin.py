@@ -62,6 +62,10 @@ class MassSendMessageAdmin(SummernoteModelAdmin):
         MassSendFileStacked,
     ]
 
+    readonly_fields = (
+        'has_delayed_task',
+    )
+
     fieldsets = [
         (
             None,
