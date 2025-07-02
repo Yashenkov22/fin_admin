@@ -8,7 +8,7 @@
 from datetime import datetime
 from django.db import models
 from django.forms import ValidationError
-
+from django.utils import timezone
 
 class AlembicVersion(models.Model):
     version_num = models.CharField(primary_key=True, max_length=32)
@@ -256,7 +256,7 @@ class MassSendMessage(models.Model):
         if any(el for el in (self.delay_time, self.send_to)) and not (all(el for el in (self.delay_time, self.send_to))):
             raise ValidationError('Нужно выбрать И дату И куда отправить')
         
-        if self.delay_time and self.delay_time < datetime.now():
+        if self.delay_time and self.delay_time < timezone.now():
             raise ValidationError('Введите корректную дату отложенного поста')
             
 # Модель изображений связанных с рассылкой 
