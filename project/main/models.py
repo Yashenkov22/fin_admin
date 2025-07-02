@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from datetime import datetime
 from django.db import models
 from django.forms import ValidationError
 
@@ -254,6 +255,10 @@ class MassSendMessage(models.Model):
 
         if any(el for el in (self.delay_time, self.send_to)) and not (all(el for el in (self.delay_time, self.send_to))):
             raise ValidationError('Нужно выбрать И дату И куда отправить')
+        
+        if self.delay_time and self.delay_time < datetime.now():
+            raise ValidationError('Введите корректную дату отложенного поста')
+            
 # Модель изображений связанных с рассылкой 
 # class MassSendFile(models.Model):
 #     image = models.ImageField('Изображение',
