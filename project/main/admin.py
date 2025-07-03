@@ -6,6 +6,7 @@ from django.db import transaction
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
+from django.utils import timezone
 
 from django.conf import settings
 
@@ -69,7 +70,7 @@ class MassSendMessageAdmin(SummernoteModelAdmin):
 
     def get_delayed_time(self, obj):
         if obj.delay_time is not None and  obj.has_delayed_task == 'Запланировано':
-            return obj.delay_time.strftime("%d.%m.%y %H:%M")
+            return obj.delay_time.astimezone(tz=timezone).strftime("%d.%m.%y %H:%M")
         
     get_delayed_time.short_description = 'Запланировано на:'
 
