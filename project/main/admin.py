@@ -8,6 +8,8 @@ from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 
+import pytz
+
 from django.conf import settings
 
 from django_summernote.admin import SummernoteModelAdmin
@@ -24,6 +26,9 @@ from rangefilter.filters import (
     NumericRangeFilterBuilder,
     DateRangeQuickSelectListFilterBuilder,
 )
+
+
+moscow_tz = pytz.timezone('Europe/Moscow')
 
 
 def generate_image_icon(icon_url: str):
@@ -70,7 +75,7 @@ class MassSendMessageAdmin(SummernoteModelAdmin):
 
     def get_delayed_time(self, obj):
         if obj.delay_time is not None and  obj.has_delayed_task == 'Запланировано':
-            return obj.delay_time.astimezone(tz=timezone).strftime("%d.%m.%y %H:%M")
+            return obj.delay_time.astimezone(tz=moscow_tz).strftime("%d.%m.%y %H:%M")
         
     get_delayed_time.short_description = 'Запланировано на:'
 
