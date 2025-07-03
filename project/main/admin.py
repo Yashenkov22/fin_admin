@@ -56,7 +56,7 @@ class MassSendFileStacked(admin.StackedInline):
 
 @admin.register(MassSendMessage)
 class MassSendMessageAdmin(SummernoteModelAdmin):
-    list_display = ('name', 'has_delayed_task')
+    list_display = ('name', 'has_delayed_task', 'get_delayed_time')
     summernote_fields = ('content', '')
     inlines = [
         MassSendFileStacked,
@@ -64,7 +64,15 @@ class MassSendMessageAdmin(SummernoteModelAdmin):
 
     readonly_fields = (
         'has_delayed_task',
+        'get_delayed_time',
     )
+
+    def get_delayed_time(self, obj):
+        if obj.delay_time is not None and  obj.has_delayed_task == 'Запланировано':
+            return obj.delay_time.strftime("%d.%m.%y %H:%M")
+        
+    get_delayed_time.short_description = 'Запланировано на:'
+
 
     fieldsets = [
         (
